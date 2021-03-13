@@ -1,0 +1,45 @@
+<html>
+	<head>
+	<script src="{{ url_for('static', filename='joy.js') }}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+
+	
+
+	<body onload='onStart()'>
+		<input type="button" onclick="gotoclick()" value="Clicca" style="width:500px;height:500px;">
+		<div id="joyDiv" style="width:500px;height:500px;top:40%;left:30%;position:absolute;" ></div>
+
+
+		<script>
+			
+			var joy = new JoyStick('joyDiv');
+			function onStart(){
+				 
+			let interval = setInterval(()=>{ 
+				
+				let direction = joy.GetDir()
+				$.ajax({
+					url:'/move',
+					type:"POST",
+					data:JSON.stringify({'command':direction}),
+					contentType:"application/json; charset=utf-8",
+					dataType:"json",
+				});
+			},100)
+
+
+			}
+		function gotoclick(){
+			$.ajax({
+					url:'/click',
+					type:"GET",
+				//	data:JSON.stringify({'command':direction}),
+					contentType:"application/json; charset=utf-8",
+					dataType:"json",
+				});
+			
+		}
+		</script>
+	</body>
+</html>
